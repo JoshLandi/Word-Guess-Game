@@ -1,9 +1,13 @@
+// Potential words to guess.
+var wordOptions = ["Buffalo", "Hot Sauce", "Juicy", "Mango Habenaro", "Delicious" ]
 
-var scriptTest = document.getElementById("scriptTest")
+
+// Logging player letter entry.
+var letterEntry = document.getElementById("letterEntry")
 
 document.onkeyup = function(event) {
 
-    scriptTest.textContent = event.key;
-    console.log(scriptTest);
+    letterEntry.textContent = event.key;
+    console.log(letterEntry);
 
 };
