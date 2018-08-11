@@ -44,6 +44,16 @@ function restart() {
     updateDisplay();
 }
 
+function updateDisplay() {
+
+    document.getElementById("winTotal").innerText = wins;
+
+    document.getElementById("currentWord").innerText = "";
+    for (var i = 0; i < wordToGuess.length; i++) {
+        document.getElementById("currentWord").innerText += wordToGuess[i];
+    }
+}
+
 // Logging player letter entry.
 var letterEntry = document.getElementById("letterEntry")
 
