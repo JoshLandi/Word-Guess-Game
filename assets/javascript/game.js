@@ -1,67 +1,104 @@
-// Potential words to guess.
-var wordOptions = ["Buffalo", "Hot Sauce", "Juicy", "Mango Habenaro", "Delicious" ];
+//Global Variables
+    //Arrays
+    var wordOptions = ["buffalo", "hotsauce", "juicy", "habenaro", "delicious" ];
+    var selectedWord = "";
+    var lettersInWord = [];
+    var numBlanks = 0;
+    var blanksAndSuccesses = [];
+    var wrongLetters = [];
 
-// Player's max amount of guesses.
-const MaxTries = 6;
+    //Game Counters
+    var winCount = 0;
+    var lossCount = 0;
+    var guessesLeft = 7;
 
-// Stored guessed letters.
-var guessEntries = [];        
+//Functions
 
-// Index of the current word in the array.
-var currentWordIndex;    
+function startGame() {
+    selectedWord = wordOptions[Math.floor(Math.random() * wordOptions.length)];
+    lettersInWord = selectedWord.split("");
+    numBlanks = lettersInWord.length;
 
-// Built word to match current word.
-var wordToGuess = [];          
+    //Reset
+    guessesLeft = 7;
+    wrongLetters = [];
+    blanksAndSuccesses = [];
 
-// Remaining tries for the player.
-var remainingTries = 0;       
-
-// Flag to tell if the game has started.
-var startedGame = false;     
-
-// Var for 'press any key to try again' 
-var hasFinished = false;        
-
-// Amount player has won.
-var wins = 0;                   
-
-
-function restart() {
-    remainingTries = MaxTries;
-    startedGame = false;
-
-    currentWordIndex = Math.floor(Math.random() * wordOptions.length);
-
-    guessEntries = [];
-    wordToGuess = [];
-
-    for (var i = 0; i < wordOptions[currentWordIndex].length; i++) {
-        wordToGuess.push("_");
+    for (var i = 0; i < numBlanks; i++){
+        blanksAndSuccesses.push("_");
     }
 
-    document.getElementById("pressKeyTryAgain").style.cssText= "display: none";
+    // Change HTML
+    document.getElementById("currentWord").innerHTML = blanksAndSuccesses.join(" ")
+    document.getElementById("numGuesses").innerHTML = guessesLeft;
+    document.getElementById("winTotal").innerHTML = winCount;
+    document.getElementById("lossTotal").innerHTML = lossCount;
 
-    updateDisplay();
+    //Testing
+    console.log(selectedWord);
+    console.log(lettersInWord);
+    console.log(numBlanks);
+    console.log(blanksAndSuccesses);
 }
 
-function updateDisplay() {
+    function checkLetters(letter) {
+        var isLetterInWord = false;
 
-    document.getElementById("winTotal").innerText = wins;
+        for (var i = 0; i < numBlanks; i++) {
+            if(selectedWord[i] == letter) {
+                isLetterInWord = true;
+            }
+        }
 
-    document.getElementById("currentWord").innerText = "";
-    for (var i = 0; i < wordToGuess.length; i++) {
-        document.getElementById("currentWord").innerText += wordToGuess[i];
+        //Where letter exists in word
+    if (isLetterInWord) {
+        for (var i = 0; i < numBlanks; i++) {
+            if(selectedWord[i] == letter) {
+                blanksAndSuccesses[i] = letter;
+            }
+        }
+    }
+    //Wrong Guess
+    else {
+        wrongLetters.push(letter);
+        guessesLeft--
+    }
+    console.log(blanksAndSuccesses);
+}
+
+function roundComplete() {
+    console.log("Win Count: " + winCount + " | Loss Count: " + lossCount + " | Guesses Left: " + guessesLeft);
+    //Update Html
+    document.getElementById("numGuesses").innerHTML = guessesLeft;
+    document.getElementById("currentWord").innerHTML = blanksAndSuccesses.join(" ");
+    document.getElementById("guessEntries").innerHTML = wrongLetters.join(" ");
+    //Check for win
+    if (lettersInWord.toString() == blanksAndSuccesses.toString()){
+        winCount++;
+        alert("That's some nice sauce you got there.");
+
+        document.getElementById("winTotal").innerHTML = winCount;
+        startGame();
+    }
+    //Check for loss
+    else if (guessesLeft == 0) {
+        lossCount++;
+        alert("You lose. No sauce for you!")
+        document.getElementById("lossTotal").innerHTML = lossCount;
+
+       startGame();
     }
 }
 
-// Logging player letter entry.
-var letterEntry = document.getElementById("letterEntry")
+//Main Process
 
+// First code start
+startGame();
+
+// Key clicks
 document.onkeyup = function(event) {
-
-    letterEntry.textContent = event.key;
-    console.log(letterEntry);
-
-};
-
-
+    var letterGuessed = String.fromCharCode(event.keyCode).toLowerCase();
+    checkLetters(letterGuessed);
+    roundComplete();
+    console.log(letterGuessed);
+}

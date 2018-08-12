@@ -65,7 +65,7 @@ h1,h2,h3,h4,h5,h6 {
     padding: 3px;
     background-color: rgba(0, 0, 0, 0.158);
 }
-#title-image, #gameover-image, #youwin-image{ 
+#title-image, #loseMessage, #winMessage{ 
     display: block;
     margin: 0 auto;
 }
@@ -74,9 +74,9 @@ h1,h2,h3,h4,h5,h6 {
     letter-spacing: 12px;
 }
 
-#pressKeyTryAgain, 
-#gameover-image, 
-#youwin-image { display: none;}
+#pressTryAgain, 
+#loseMessage, 
+#winMessage { display: none;}
 .gameplay-column {
     padding-top: 20px;
     border: 2px dashed rgb(0, 0, 0);
@@ -85,3 +85,8 @@ h1,h2,h3,h4,h5,h6 {
     min-height: 500px;
     background-color: rgba(0, 0, 0, 0.158);
 }
+
+#winMessage, #loseMessage {
+    color: rgb(255, 4, 4);
+}
+
